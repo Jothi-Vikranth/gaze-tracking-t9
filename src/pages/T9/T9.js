@@ -179,9 +179,11 @@ const T9 = () => {
       <Box
         sx={{
           display: "grid",
-          width: "fit-content",
+          width: "100%",
           gridTemplateColumns: "repeat(4,1fr)",
           gridTemplateRows: "repeat(3,1fr)",
+          justifyContent: "space-between",
+          justifyItems: "center",
           gap: 4,
           columnGap: 5,
         }}
