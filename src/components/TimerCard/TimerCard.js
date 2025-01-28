@@ -85,7 +85,7 @@ const TimerCard = ({ onTimerClick, children, active = true }) => {
             width: `${length - 2 * thickness}px`,
             height: `${length - 2 * thickness}px`,
             borderRadius: "50%",
-
+            letterSpacing: "1.5px",
             // border: 1,
             backgroundColor: active ? "#ffffe4" : "#801515",
             // color: "#fff",
