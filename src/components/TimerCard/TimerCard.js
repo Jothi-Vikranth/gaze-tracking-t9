@@ -54,7 +54,12 @@ const TimerCard = ({ onTimerClick, children, active = true }) => {
     <Box
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      sx={{ position: "relative", width: "fit-content" }}
+      sx={{
+        position: "relative",
+        width: "fit-content",
+        fontSize: 25,
+        fontWeight: 700,
+      }}
     >
       <Box
         sx={{
