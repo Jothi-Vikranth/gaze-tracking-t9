@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React, { useRef, useState } from "react";
 
 const TimerCard = ({ onTimerClick, children, active = true }) => {
-  const delay = 1500;
+  const delay = 3000;
   const length = 180;
   const thickness = 20;
 
