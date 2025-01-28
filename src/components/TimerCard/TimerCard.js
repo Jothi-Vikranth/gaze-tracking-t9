@@ -82,7 +82,7 @@ const TimerCard = ({ onTimerClick, children, active = true }) => {
             borderRadius: "50%",
 
             // border: 1,
-            backgroundColor: active ? "#0f0" : "#801515",
+            backgroundColor: active ? "#ffffe4" : "#801515",
             // color: "#fff",
           }}
         >
@@ -113,7 +113,7 @@ const TimerCard = ({ onTimerClick, children, active = true }) => {
           strokeDashoffset={Math.floor(
             dashArrayCount * (1 - parseFloat(progress / 100))
           )}
-          stroke="#f75023"
+          stroke="#4F6DB6"
           transform={`rotate(-82 90 90)`}
         />
       </svg>
