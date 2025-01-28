@@ -174,7 +174,7 @@ const T9 = () => {
   return (
     <Box>
       <Box sx={{ mb: 2, textAlign: "center" }}>
-        Number :<Box sx={{ fontWeight: 800, fontSize: 30 }}>{sentence}</Box>
+        Answer :<Box sx={{ fontWeight: 800, fontSize: 30 }}>{sentence}</Box>
       </Box>
       <Box
         sx={{
