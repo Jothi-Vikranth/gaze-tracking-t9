@@ -11,12 +11,10 @@ const NumberComp = ({ number, text }) => {
         height: "100%",
         justifyContent: "space-evenly",
         alignItems: "center",
-        fontSize: 25,
-        fontWeight: 700,
       }}
     >
-      <Box>{number}</Box>
-      <Box>{text}</Box>
+      {/* <Box>{number}</Box> */}
+      <Box>{text.toUpperCase()}</Box>
     </Box>
   );
 };
