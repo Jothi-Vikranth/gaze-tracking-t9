@@ -1,11 +1,18 @@
+import React, { Suspense } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import T9 from "./pages/T9";
+
+const T9 = React.lazy(() => import("./pages/T9"));
 
 function App() {
   return (
-    <div className="">
-      <T9 />
-    </div>
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" index element={<T9 />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 
