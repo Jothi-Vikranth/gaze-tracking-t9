@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
 
+  const goToSettings = () => {
+    navigate("/settings");
+  };
   const goToT9 = () => {
     navigate("/t9");
   };
@@ -27,7 +30,10 @@ const Home = () => {
         alignItems: "center",
       }}
     >
-      <HomeComponent image={Settings} />
+      <HomeComponent
+        image={Settings}
+        homeComponentProps={{ onClick: goToSettings }}
+      />
       <HomeComponent image={Caliberation} />
       <HomeComponent
         image={TextBoard}
