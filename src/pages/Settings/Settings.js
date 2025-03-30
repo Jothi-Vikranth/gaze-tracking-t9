@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { HuePicker } from "react-color";
@@ -20,6 +20,10 @@ const Settings = () => {
   const dispatch = useDispatch();
 
   const settingsData = useSelector((state) => state.settingsData);
+
+  const [localSettings, setLocalSettings] = useState({
+    ...settingsData,
+  });
   const {
     hue,
     color,
@@ -28,15 +32,24 @@ const Settings = () => {
     textSize,
     cursorSize,
     voice,
-  } = settingsData;
+  } = localSettings;
 
   const handleColorChange = (color) => {
-    dispatch(
-      settingsDataActions.updateColor({ hue: color.oldHue, color: color.hex })
-    );
+    setLocalSettings((prev) => ({
+      ...prev,
+      hue: color.oldHue,
+      color: color.hex,
+    }));
   };
 
   const onSaveClick = () => {
+    dispatch(settingsDataActions.updateColor({ hue, color }));
+    dispatch(settingsDataActions.updateCursorSpeed(cursorSpeed));
+    dispatch(settingsDataActions.updateSelectionSpeed(selectionSpeed));
+    dispatch(settingsDataActions.updateTextSize(textSize));
+    dispatch(settingsDataActions.updateCursorSize(cursorSize));
+    dispatch(settingsDataActions.updateVoice(voice));
+
     navigate("/");
   };
 
@@ -76,7 +89,10 @@ const Settings = () => {
               text={el}
               isSelected={cursorSpeed === SPEED[el]}
               onClick={() => {
-                dispatch(settingsDataActions.updateCursorSpeed(SPEED[el]));
+                setLocalSettings((prev) => ({
+                  ...prev,
+                  cursorSpeed: SPEED[el],
+                }));
               }}
             />
           ))}
@@ -89,7 +105,10 @@ const Settings = () => {
               text={el}
               isSelected={selectionSpeed === SPEED[el]}
               onClick={() => {
-                dispatch(settingsDataActions.updateSelectionSpeed(SPEED[el]));
+                setLocalSettings((prev) => ({
+                  ...prev,
+                  selectionSpeed: SPEED[el],
+                }));
               }}
             />
           ))}
@@ -103,7 +122,10 @@ const Settings = () => {
               isSelected={textSize === SIZE[el]}
               sxProps={{ fontSize: `${23 + (index - 1) * 3}px` }}
               onClick={() => {
-                dispatch(settingsDataActions.updateTextSize(SIZE[el]));
+                setLocalSettings((prev) => ({
+                  ...prev,
+                  textSize: SIZE[el],
+                }));
               }}
             />
           ))}
@@ -117,7 +139,10 @@ const Settings = () => {
               isSelected={cursorSize === SIZE[el]}
               sxProps={{ fontSize: `${23 + (index - 1) * 3}px` }}
               onClick={() => {
-                dispatch(settingsDataActions.updateCursorSize(SIZE[el]));
+                setLocalSettings((prev) => ({
+                  ...prev,
+                  cursorSize: SIZE[el],
+                }));
               }}
             />
           ))}
@@ -130,7 +155,10 @@ const Settings = () => {
               text={el}
               isSelected={voice === VOICE[el]}
               onClick={() => {
-                dispatch(settingsDataActions.updateVoice(VOICE[el]));
+                setLocalSettings((prev) => ({
+                  ...prev,
+                  voice: VOICE[el],
+                }));
               }}
             />
           ))}
