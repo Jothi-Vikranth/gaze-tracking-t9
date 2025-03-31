@@ -58,7 +58,14 @@ const Settings = () => {
   };
 
   return (
-    <Box sx={{ width: 1000 }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
       <Box
         sx={{
           display: "grid",
@@ -164,9 +171,7 @@ const Settings = () => {
           ))}
         </SettingsButtonContainer>
       </Box>
-      <Box
-        sx={{ display: "flex", justifyContent: "end", gap: 8, mt: 8, mr: 20 }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 8 }}>
         <SettingsSubmitButton buttonText={"SAVE"} onClick={onSaveClick} />
         <SettingsSubmitButton buttonText={"BACK"} onClick={onBackClick} />
       </Box>
