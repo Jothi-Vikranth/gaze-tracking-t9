@@ -1,13 +1,8 @@
-@font-face {
-  font-family: "pixelEmulator";
-  src: url("font/PixelEmulator-xq08.ttf") format("truetype");
-  font-weight: normal; /* Adjust based on the font's weight */
-  font-style: normal; /* Adjust if it's italic/oblique */
-}
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
 
 body {
   margin: 0;
-  font-family: "pixelEmulator", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  font-family: "Fredoka", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
