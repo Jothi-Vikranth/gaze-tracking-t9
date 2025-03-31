@@ -11,6 +11,7 @@ const NumberComp = ({ number, text }) => {
         height: "100%",
         justifyContent: "space-evenly",
         alignItems: "center",
+        fontSize: "30px",
       }}
     >
       {/* <Box>{number}</Box> */}
