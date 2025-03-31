@@ -3,7 +3,13 @@ import React, { useEffect, useState } from "react";
 import { T9Search } from "t9-plus";
 import { unigram } from "unigram";
 import TimerCard from "../../components/TimerCard";
+import BackSpaceImg from "./../../images/backspace.png";
+import CycleImg from "./../../images/cycle.png";
+import PowerImg from "./../../images/power.png";
+import StarImg from "./../../images/star.png";
+import ImageComponent from "./ImageComponent";
 import NumberComp from "./NumberComp";
+import ShowText from "./ShowText";
 
 const mapper = {
   a: 1,
@@ -46,12 +52,10 @@ const T9 = () => {
   const [rawNumberInp, setRawNumberInp] = useState([]);
   const [availableWords, setAvailableWords] = useState([]);
   const [sentence, setSentence] = useState("");
+  const [currPage, setCurrPage] = useState(1);
   const [t9, setT9] = useState(null);
 
-  //   const [t9Number, setT9Number] = useState("");
-
-  const addNumber = (number) => {
-    // setT9Number((prev) => prev + number);
+  const onAddNumber = (number) => {
     setRawNumberInp((prev) => [...prev, number]);
   };
 
@@ -156,7 +160,6 @@ const T9 = () => {
       // Limit unigram words to top 20,000 and create a weighted map
       const wordsWithWeight = unigram.slice(0, 30000);
       const map = new Map();
-      console.log(unigram.length);
 
       for (let i = 0; i < wordsWithWeight.length; i++) {
         map.set(wordsWithWeight[i]["word"], wordsWithWeight[i]["freq"]);
@@ -172,58 +175,71 @@ const T9 = () => {
   }, []);
 
   return (
-    <Box>
-      <Box sx={{ mb: 2, textAlign: "center" }}>
-        Answer :<Box sx={{ fontWeight: 800, fontSize: 30 }}>{sentence}</Box>
-      </Box>
-      <Box
-        sx={{
-          display: "grid",
-          width: "100%",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gridTemplateRows: "repeat(3,1fr)",
-          justifyContent: "space-between",
-          justifyItems: "center",
-          gap: 4,
-          columnGap: 5,
-        }}
-      >
-        <TimerCard onTimerClick={addNumber.bind(null, 1)}>
-          <NumberComp number={1} text={"abc"} />
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 2)}>
-          <NumberComp number={2} text={"def"} />
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 3)}>
-          <NumberComp number={3} text={"ghi"} />
-        </TimerCard>
-        <TimerCard
-          onTimerClick={onCycleClick}
-          active={availableWords.length !== 0}
+    <>
+      {currPage == 1 && (
+        <Box
+          sx={{
+            display: "grid",
+            width: "fit-content",
+            gridTemplateColumns: "repeat(4,160px)",
+            gridTemplateRows: "repeat(4,100px)",
+            gap: 4,
+            columnGap: 8,
+            marginTop: 2,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
         >
-          CYCLE
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 4)}>
-          <NumberComp number={4} text={"jkl"} />
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 5)}>
-          <NumberComp number={5} text={"mno"} />
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 6)}>
-          <NumberComp number={6} text={"pqrs"} />
-        </TimerCard>
-        <TimerCard onTimerClick={onBackClick}>BACK</TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 7)}>
-          <NumberComp number={7} text={"tuv"} />
-        </TimerCard>
-        <TimerCard onTimerClick={addNumber.bind(null, 8)}>
-          <NumberComp number={8} text={"wxyz"} />
-        </TimerCard>
-        <TimerCard onTimerClick={onSpaceClick} active={sentence.length !== 0}>
-          SPACE
-        </TimerCard>
-      </Box>
-    </Box>
+          <Box sx={{ gridColumn: "span 3", justifySelf: "stretch" }}>
+            <ShowText text={sentence} />
+          </Box>
+          <TimerCard>
+            <ImageComponent src={PowerImg} alt="power" />
+          </TimerCard>
+
+          <TimerCard onTimerClick={onAddNumber.bind(null, 1)}>
+            <NumberComp number={1} text={"abc"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 2)}>
+            <NumberComp number={2} text={"def"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 3)}>
+            <NumberComp number={3} text={"ghi"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onBackClick}>
+            <ImageComponent src={BackSpaceImg} alt="backspace" />
+          </TimerCard>
+
+          <TimerCard onTimerClick={onAddNumber.bind(null, 4)}>
+            <NumberComp number={4} text={"jkl"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 5)}>
+            <NumberComp number={5} text={"mno"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 6)}>
+            <NumberComp number={6} text={"pqrs"} />
+          </TimerCard>
+          <TimerCard
+            onTimerClick={onCycleClick}
+            active={availableWords.length !== 0}
+          >
+            <ImageComponent src={CycleImg} alt="cycle" />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 7)}>
+            <NumberComp number={7} text={"tuv"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onAddNumber.bind(null, 8)}>
+            <NumberComp number={8} text={"wxyz"} />
+          </TimerCard>
+          <TimerCard onTimerClick={onSpaceClick} active={sentence.length !== 0}>
+            SPACE
+          </TimerCard>
+          <TimerCard onTimerClick={() => {}}>
+            <ImageComponent src={StarImg} alt="star" />
+          </TimerCard>
+        </Box>
+      )}
+    </>
   );
 };
 
