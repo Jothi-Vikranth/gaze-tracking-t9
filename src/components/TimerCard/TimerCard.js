@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { SPEED } from "../../app/features/settingsSlice";
 import useContainerSize from "./../../hooks/useContainerSize";
@@ -10,7 +10,12 @@ const SELECTION_SPEED_DELAP_MAP = {
   [SPEED.FAST]: 1500,
 };
 
-const TimerCard = ({ onTimerClick, children, active = true }) => {
+const TimerCard = ({
+  onTimerClick,
+  children,
+  active = true,
+  ...otherProps
+}) => {
   const selectionSpeed = useSelector(
     (state) => state.settingsData.selectionSpeed
   );
@@ -61,16 +66,29 @@ const TimerCard = ({ onTimerClick, children, active = true }) => {
   };
   //   console.log(progress);
 
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    };
+  }, []);
+
   return (
     <Box
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      // onMouseOver={handleMouseEnter}
       sx={{
         position: "relative",
         fontSize: 25,
         fontWeight: 700,
       }}
       ref={ref}
+      {...otherProps}
     >
       <Box
         sx={{
