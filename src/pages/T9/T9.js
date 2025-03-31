@@ -6,10 +6,13 @@ import TimerCard from "../../components/TimerCard";
 import BackSpaceImg from "./../../images/backspace.png";
 import CycleImg from "./../../images/cycle.png";
 import PowerImg from "./../../images/power.png";
+import SpaceImg from "./../../images/space.svg";
 import StarImg from "./../../images/star.png";
+import SubmitImg from "./../../images/submit.png";
 import ImageComponent from "./ImageComponent";
 import NumberComp from "./NumberComp";
 import ShowText from "./ShowText";
+import { getPossibleWords, getT9Number, getUpdateWord } from "./utils";
 
 const mapper = {
   a: 1,
@@ -55,8 +58,43 @@ const T9 = () => {
   const [currPage, setCurrPage] = useState(1);
   const [t9, setT9] = useState(null);
 
-  const onAddNumber = (number) => {
-    setRawNumberInp((prev) => [...prev, number]);
+  const setSentenceFromNumData = (numLsData) => {
+    // Last char is a alnum char
+    if (numLsData.length !== 0) {
+      const t9Number = getT9Number(numLsData);
+      const possibleWords = getPossibleWords(t9Number, t9);
+
+      setSentence((prev) => {
+        let word_ls = prev.split(" ");
+
+        word_ls[word_ls.length - 1] = getUpdateWord(possibleWords, numLsData);
+        return word_ls.join(" ");
+      });
+    }
+    // Last char is a space
+    else {
+      setSentence((prev) => {
+        // sentence last word length != t9_length
+        if (!prev.endsWith(" ")) {
+          return prev + " ";
+        } else {
+          return prev;
+        }
+      });
+    }
+  };
+
+  const setAvailableWordsFromNumLsData = (numLsData) => {
+    // Last char is a alnum char
+    if (numLsData.length !== 0) {
+      const t9Number = getT9Number(numLsData);
+      const possibleWords = getPossibleWords(t9Number, t9);
+      setAvailableWords(possibleWords);
+    }
+    // Last char is a space
+    else {
+      setAvailableWords([]);
+    }
   };
 
   const onCycleClick = () => {
@@ -75,18 +113,27 @@ const T9 = () => {
     });
   };
 
-  const onSpaceClick = () => {
+  const onSpaceSubmitClick = () => {
+    if (sentence.endsWith(" ")) {
+      return;
+    }
+
     setSentence((prev) => prev + " ");
     setRawNumberInp([]);
+    setAvailableWords([]);
   };
+
   const onBackClick = () => {
     // Backspacing char in word
     if (rawNumberInp.length > 0) {
-      setRawNumberInp((prev) => {
-        if (prev.length == 1) return [];
+      const numLsData =
+        rawNumberInp.length === 1
+          ? []
+          : rawNumberInp.slice(0, rawNumberInp.length - 1);
 
-        return prev.slice(0, prev.length - 1);
-      });
+      setRawNumberInp(numLsData);
+      setSentence((prev) => prev.slice(0, -1));
+      setAvailableWordsFromNumLsData([]);
     }
     // Backspacing space
     else {
@@ -95,63 +142,21 @@ const T9 = () => {
         word_ls.pop();
         const last_word = word_ls[word_ls.length - 1];
 
-        setRawNumberInp(last_word.split("").map((el) => mapper[el]));
+        const numLsData = last_word.split("").map((el) => mapper[el]);
+        setRawNumberInp(numLsData);
         setSentence(word_ls.join(" "));
+        setAvailableWordsFromNumLsData(numLsData);
       }
     }
   };
 
-  useEffect(() => {
-    const t9Number = rawNumberInp.map((el) => (el + 1).toString()).join("");
-    console.log(t9Number);
-    const t9_length = t9Number.length;
-
-    // Two possibilities  -> either a number has been selected or backspace has been clicked
-    if (t9_length !== 0) {
-      const possibleWords = t9
-        .predict(t9Number)
-        .filter((el) => el.length === t9_length);
-
-      setSentence((prev) => {
-        let word_ls = prev.split(" ");
-
-        if (possibleWords.length === 0) {
-          word_ls[word_ls.length - 1] = rawNumberInp
-            .map((el) => el.toString())
-            .join("");
-          return word_ls.join(" ");
-        }
-
-        // sentence last word length != t9_length
-        if (t9_length !== word_ls[word_ls.length - 1].length) {
-          word_ls[word_ls.length - 1] = possibleWords[0];
-          return word_ls.join(" ");
-        }
-        // sentence last word length == t9_length
-        else {
-          return prev;
-        }
-      });
-      setAvailableWords(possibleWords);
-      console.log(possibleWords);
-    }
-    // Two possibilities  -> either a number has been deleted by backspace or space has been clicked
-    else {
-      setAvailableWords([]);
-      setSentence((prev) => {
-        let word_ls = prev.split(" ");
-        // sentence last word length != t9_length
-        if (word_ls[word_ls.length - 1] !== "") {
-          word_ls[word_ls.length - 1] = "";
-          return word_ls.join(" ");
-        }
-        // sentence last word length == t9_length
-        else {
-          return prev;
-        }
-      });
-    }
-  }, [rawNumberInp]);
+  const onUpdateByNumData = (numData) => {
+    console.log(numData);
+    const numLsData = [...rawNumberInp, numData];
+    setRawNumberInp((prev) => [...prev, numData]);
+    setSentenceFromNumData(numLsData);
+    setAvailableWordsFromNumLsData(numLsData);
+  };
 
   useEffect(() => {
     const initializeT9 = () => {
@@ -197,26 +202,26 @@ const T9 = () => {
             <ImageComponent src={PowerImg} alt="power" />
           </TimerCard>
 
-          <TimerCard onTimerClick={onAddNumber.bind(null, 1)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 1)}>
             <NumberComp number={1} text={"abc"} />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 2)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 2)}>
             <NumberComp number={2} text={"def"} />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 3)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 3)}>
             <NumberComp number={3} text={"ghi"} />
           </TimerCard>
           <TimerCard onTimerClick={onBackClick}>
             <ImageComponent src={BackSpaceImg} alt="backspace" />
           </TimerCard>
 
-          <TimerCard onTimerClick={onAddNumber.bind(null, 4)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 4)}>
             <NumberComp number={4} text={"jkl"} />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 5)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 5)}>
             <NumberComp number={5} text={"mno"} />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 6)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 6)}>
             <NumberComp number={6} text={"pqrs"} />
           </TimerCard>
           <TimerCard
@@ -225,14 +230,21 @@ const T9 = () => {
           >
             <ImageComponent src={CycleImg} alt="cycle" />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 7)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 7)}>
             <NumberComp number={7} text={"tuv"} />
           </TimerCard>
-          <TimerCard onTimerClick={onAddNumber.bind(null, 8)}>
+          <TimerCard onTimerClick={onUpdateByNumData.bind(null, 8)}>
             <NumberComp number={8} text={"wxyz"} />
           </TimerCard>
-          <TimerCard onTimerClick={onSpaceClick} active={sentence.length !== 0}>
-            SPACE
+          <TimerCard
+            onTimerClick={onSpaceSubmitClick}
+            active={sentence.length !== 0}
+          >
+            {sentence.endsWith(" ") ? (
+              <ImageComponent src={SubmitImg} alt="submit" />
+            ) : (
+              <ImageComponent src={SpaceImg} alt="space" />
+            )}
           </TimerCard>
           <TimerCard onTimerClick={() => {}}>
             <ImageComponent src={StarImg} alt="star" />
