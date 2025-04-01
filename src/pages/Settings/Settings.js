@@ -61,7 +61,7 @@ const Settings = () => {
     <Box
       sx={{
         width: "100%",
-        height: "100%",
+        height: "100vh",
         display: "grid",
         placeItems: "center",
       }}
@@ -72,6 +72,7 @@ const Settings = () => {
           gridTemplateColumns: "1fr 2fr",
           gridTemplateRows: "repeat(6, minmax(50px, auto))",
           m: 3,
+          mt: 0,
           rowGap: "15px",
           alignItems: "center",
         }}
