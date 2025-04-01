@@ -72,6 +72,8 @@ const T9 = () => {
 
   const onSpaceSubmitClick = () => {
     if (sentence.endsWith(" ")) {
+      setSentence("");
+      setRawNumberInp([]);
       return;
     }
 
@@ -177,6 +179,11 @@ const T9 = () => {
     else {
       setAvailableWords([]);
       setSentence((prev) => {
+        // If sentence is empty
+        if (prev === "") {
+          return prev;
+        }
+
         let word_ls = prev.split(" ");
         // sentence last word length != t9_length
         if (word_ls[word_ls.length - 1] !== "") {
