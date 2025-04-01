@@ -32,7 +32,7 @@ const ShowText = ({ text }) => {
           whiteSpace: "pre",
         }}
       >
-        {text}
+        {text.toUpperCase()}
         {showCursor && (
           <Box
             sx={{
