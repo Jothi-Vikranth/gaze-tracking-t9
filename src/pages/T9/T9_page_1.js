@@ -18,6 +18,7 @@ const T9_page_1 = ({
   onBackClick,
   onCycleClick,
   onSpaceSubmitClick,
+  onPrevPageClick,
   onSwitchPage,
 }) => {
   return (
@@ -38,7 +39,7 @@ const T9_page_1 = ({
       <Box sx={{ gridColumn: "span 3", justifySelf: "stretch" }}>
         <ShowText text={sentence} />
       </Box>
-      <TimerCard>
+      <TimerCard onTimerClick={onPrevPageClick}>
         <ImageComponent src={PowerImg} alt="power" />
       </TimerCard>
 

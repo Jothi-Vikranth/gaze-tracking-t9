@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { T9Search } from "t9-plus";
 import { unigram } from "unigram";
 import T9_page_1 from "./T9_page_1";
@@ -42,11 +43,16 @@ const mapper = {
 };
 
 const T9 = () => {
+  const navigate = useNavigate();
   const [rawNumberInp, setRawNumberInp] = useState([]);
   const [availableWords, setAvailableWords] = useState([]);
   const [sentence, setSentence] = useState("");
   const [currPage, setCurrPage] = useState(1);
   const [t9, setT9] = useState(null);
+
+  const onPrevPageClick = () => {
+    navigate("/");
+  };
 
   const onCycleClick = () => {
     setSentence((prev) => {
@@ -195,6 +201,7 @@ const T9 = () => {
           onBackClick={onBackClick}
           onCycleClick={onCycleClick}
           onSpaceSubmitClick={onSpaceSubmitClick}
+          onPrevPageClick={onPrevPageClick}
           onSwitchPage={() => {
             setCurrPage(2);
           }}
@@ -208,6 +215,7 @@ const T9 = () => {
           onBackClick={onBackClick}
           onCycleClick={onCycleClick}
           onSpaceSubmitClick={onSpaceSubmitClick}
+          onPrevPageClick={onPrevPageClick}
           onSwitchPage={() => {
             setCurrPage(1);
           }}
