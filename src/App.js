@@ -4,6 +4,7 @@ import "./App.css";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const Settings = React.lazy(() => import("./pages/Settings"));
+const Caliberate = React.lazy(() => import("./pages/Caliberate"));
 const T9 = React.lazy(() => import("./pages/T9"));
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" index element={<Home />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/caliberate" element={<Caliberate />} />
           <Route path="/t9" element={<T9 />} />
         </Routes>
       </Suspense>

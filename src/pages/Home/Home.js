@@ -13,6 +13,9 @@ const Home = () => {
   const goToSettings = () => {
     navigate("/settings");
   };
+  const goToCaliberate = () => {
+    navigate("/caliberate");
+  };
   const goToT9 = () => {
     navigate("/t9");
   };
@@ -34,7 +37,10 @@ const Home = () => {
         image={Settings}
         homeComponentProps={{ onClick: goToSettings }}
       />
-      <HomeComponent image={Caliberation} />
+      <HomeComponent
+        image={Caliberation}
+        homeComponentProps={{ onClick: goToCaliberate }}
+      />
       <HomeComponent
         image={TextBoard}
         homeComponentProps={{ onClick: goToT9 }}
