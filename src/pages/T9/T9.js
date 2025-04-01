@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { T9Search } from "t9-plus";
 import { unigram } from "unigram";
+import { ApiHandler } from "../../api/ApiHandler";
 import T9_page_1 from "./T9_page_1";
 import T9_page_2 from "./T9_page_2";
 
@@ -139,7 +140,28 @@ const T9 = () => {
       // Save the initialized T9 instance in state
       setT9(t9Instance);
     };
+
+    (async () => {
+      const res = await ApiHandler({
+        requestConfig: {
+          method: "post",
+          endPoint: "startGazeTracking",
+          data: {},
+        },
+      });
+    })();
+
     initializeT9();
+
+    return async () => {
+      const res = await ApiHandler({
+        requestConfig: {
+          method: "post",
+          endPoint: "stopGazeTracking",
+          data: {},
+        },
+      });
+    };
   }, []);
 
   useEffect(() => {

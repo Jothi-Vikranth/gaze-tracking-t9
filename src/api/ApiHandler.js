@@ -2,7 +2,10 @@ import axios from "axios";
 
 const routes = {
   caliberate: "/caliberate",
+  startGazeTracking: "/start_gaze_tracking",
+  stopGazeTracking: "/stop_gaze_tracking",
 };
+
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 export const ApiHandler = async ({ requestConfig }) => {
