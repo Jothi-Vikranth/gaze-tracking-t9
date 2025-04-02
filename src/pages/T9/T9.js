@@ -71,10 +71,17 @@ const T9 = () => {
     });
   };
 
-  const onSpaceSubmitClick = () => {
+  const onSpaceSubmitClick = async () => {
     if (sentence.endsWith(" ")) {
       setSentence("");
       setRawNumberInp([]);
+      const res = await ApiHandler({
+        requestConfig: {
+          method: "post",
+          endPoint: "showMessage",
+          data: {},
+        },
+      });
       return;
     }
 

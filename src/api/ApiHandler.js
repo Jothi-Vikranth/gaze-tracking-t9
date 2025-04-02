@@ -2,6 +2,7 @@ import axios from "axios";
 
 const routes = {
   caliberate: "/caliberate",
+  showMessage: "/showMessage",
   startGazeTracking: "/start_gaze_tracking",
   stopGazeTracking: "/stop_gaze_tracking",
 };
