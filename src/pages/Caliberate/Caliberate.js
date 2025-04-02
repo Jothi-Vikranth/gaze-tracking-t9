@@ -32,7 +32,7 @@ const Caliberate = () => {
         fontSize: "30px",
       }}
     >
-      Caliberation Starting
+      Caliberation Going on. Please wait.
     </Box>
   );
 };
