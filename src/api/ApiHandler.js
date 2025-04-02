@@ -25,10 +25,12 @@ export const ApiHandler = async ({ requestConfig }) => {
     console.log("Error endpoint not given");
     return { status: "error", errorMsg: "endpoint is not provided" };
   }
+
   if (!Object.keys(routes).includes(endPoint)) {
     console.log("Error endpoint absent");
     return { status: "error", errorMsg: `Invalid endpoint ${endPoint}` };
   }
+
   if (method === undefined) {
     console.log("Error method not given");
     return { status: "error", errorMsg: "method is not provided" };
@@ -53,6 +55,9 @@ export const ApiHandler = async ({ requestConfig }) => {
     response = err.response;
   }
   console.log(response);
+  if (response === undefined) {
+    return { status: "error", errorMsg: "No response received" };
+  }
   const { status, data: resData, statusText } = response;
 
   if (status === 200) {

@@ -79,7 +79,7 @@ const T9 = () => {
         requestConfig: {
           method: "post",
           endPoint: "showMessage",
-          data: {},
+          data: { message: sentence },
         },
       });
       return;
@@ -148,27 +148,27 @@ const T9 = () => {
       setT9(t9Instance);
     };
 
-    (async () => {
-      const res = await ApiHandler({
-        requestConfig: {
-          method: "post",
-          endPoint: "startGazeTracking",
-          data: {},
-        },
-      });
-    })();
+    // (async () => {
+    //   const res = await ApiHandler({
+    //     requestConfig: {
+    //       method: "post",
+    //       endPoint: "startGazeTracking",
+    //       data: {},
+    //     },
+    //   });
+    // })();
 
     initializeT9();
 
-    return async () => {
-      const res = await ApiHandler({
-        requestConfig: {
-          method: "post",
-          endPoint: "stopGazeTracking",
-          data: {},
-        },
-      });
-    };
+    // return async () => {
+    //   const res = await ApiHandler({
+    //     requestConfig: {
+    //       method: "post",
+    //       endPoint: "stopGazeTracking",
+    //       data: {},
+    //     },
+    //   });
+    // };
   }, []);
 
   useEffect(() => {
